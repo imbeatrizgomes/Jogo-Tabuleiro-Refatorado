@@ -4,6 +4,11 @@ import java.util.List;
 
 public class DesenharTabuleiro {
 
+	//Evita instanciar a classe
+    private DesenharTabuleiro() { 
+    
+    }
+
     public static String desenhar(List<Jogador> jogadores) {
         StringBuilder sb = new StringBuilder();
 
@@ -14,10 +19,12 @@ public class DesenharTabuleiro {
         sb.append(String.format("%35s%n", " TABULEIRO"));
         sb.append("============================================================\n");
 
+        // Casa inicial
         sb.append("Casa inicial (0): [");
         sb.append(jogadoresNaCasa(jogadores, 0));
         sb.append("]\n\n");
 
+        // Linhas do tabuleiro
         for (int inicio = 1; inicio <= totalCasas; inicio += casasPorLinha) {
             int fim = inicio + casasPorLinha - 1;
 
@@ -42,25 +49,31 @@ public class DesenharTabuleiro {
 
     private static String gerarLinhaDeCasas(List<Jogador> jogadores, int inicio, int fim) {
         StringBuilder sb = new StringBuilder();
+
         for (int i = inicio; i <= fim; i++) {
             String dentro = jogadoresNaCasa(jogadores, i);
+
             String conteudo = dentro;
             if (conteudo.isEmpty()) {
                 conteudo = " ";
             }
-            
-            sb.append("[").append(conteudo).append("] ");
+
+            sb.append("[");
+            sb.append(conteudo);
+            sb.append("] ");
         }
-        
+
         sb.append("\n");
         return sb.toString();
     }
 
     private static String gerarLinhaDeNumeros(int inicio, int fim) {
         StringBuilder sb = new StringBuilder();
+
         for (int i = inicio; i <= fim; i++) {
             sb.append(String.format("%3d ", i));
         }
+
         sb.append("\n");
         return sb.toString();
     }
