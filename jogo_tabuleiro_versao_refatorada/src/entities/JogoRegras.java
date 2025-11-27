@@ -7,14 +7,9 @@ public class JogoRegras {
     private final List<Jogador> jogadores;
     private final Random random;
 
-    public JogoRegras(List<Jogador> jogadores, Random random) {
+    public JogoRegras(List<Jogador> jogadores) {
         this.jogadores = jogadores;
-
-        if (random == null) {
-            this.random = new Random();
-        } else {
-            this.random = random;
-        }
+        this.random = new Random();
     }
 
     public String aplicarRegrasEspeciais(Jogador jogador) {
