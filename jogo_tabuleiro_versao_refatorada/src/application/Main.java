@@ -16,12 +16,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Modo DEBUG (S/N)? ");
-        boolean debug = sc.nextLine().trim().equalsIgnoreCase("S");
+        String resp = sc.next();
+        boolean debug = resp.equalsIgnoreCase("S");
+        sc.nextLine(); 
 
         System.out.print("Quantos jogadores participarão (2 a 6)? ");
-        int qtd = Integer.parseInt(sc.nextLine().trim());
-        if (qtd < 2) qtd = 2;
+        int qtd = sc.nextInt();
+        sc.nextLine();
+        if (qtd < 2) qtd = 2; 
         if (qtd > 6) qtd = 6;
+
 
         List<Jogador> jogadores = new ArrayList<>();
 
@@ -31,12 +35,13 @@ public class Main {
             String nome = sc.nextLine();
             System.out.print("Cor: ");
             String cor = sc.nextLine();
-
+            
             System.out.println("Tipo 1 - Normal");
             System.out.println("Tipo 2 - Sortudo");
             System.out.println("Tipo 3 - Azarado");
             System.out.print("Escolha uma das opções (1/2/3): ");
-            String tipo = sc.nextLine().trim();
+            String tipo = sc.next();
+            sc.nextLine();
 
             Jogador p;
             if (tipo.equals("2")) {
@@ -52,10 +57,9 @@ public class Main {
         Tabuleiro tabuleiro = new Tabuleiro(jogadores);
         JogoRegras regras = new JogoRegras(tabuleiro.jogadores());
         Jogo jogo = new Jogo(tabuleiro, regras, debug);
-        jogo.run();
+        jogo.loopDoJogo();
 
         sc.close();
     
     }
-    
 }
