@@ -6,50 +6,62 @@ public class DesenharTabuleiro {
 
     public static String desenhar(List<Jogador> jogadores) {
         StringBuilder sb = new StringBuilder();
-        int totalDeCasas = 40;
-        int casasPorLinha = 10;
-        int linhas = totalDeCasas / casasPorLinha; // 4 linhas
 
+        int casasPorLinha = 10;
+        int totalCasas = 40;
+        
         sb.append("\n============================================================\n");
         sb.append(String.format("%35s%n", " TABULEIRO"));
         sb.append("============================================================\n");
 
-        // Casa inicial
         sb.append("Casa inicial (0): [");
-        StringBuilder casaInicial = new StringBuilder();
-        for (Jogador p : jogadores) {
-            if (p.getPosicao() == 0) {
-                casaInicial.append(p.getCor().toUpperCase().charAt(0));
-            }
-        }
-        casaInicial.append("]");
-        sb.append(casaInicial.toString()).append("\n\n");
+        sb.append(jogadoresNaCasa(jogadores, 0));
+        sb.append("]\n\n");
 
-        for (int linha = 0; linha < linhas; linha++) {
-            int inicio = linha * casasPorLinha + 1;
+        for (int inicio = 1; inicio <= totalCasas; inicio += casasPorLinha) {
             int fim = inicio + casasPorLinha - 1;
 
-            for (int i = inicio; i <= fim; i++) {
-                StringBuilder simbolos = new StringBuilder();
-                for (Jogador p : jogadores) {
-                    if (p.getPosicao() == i) {
-                        simbolos.append(p.getCor().toUpperCase().charAt(0));
-                    }
-                }
-                if (simbolos.length() == 0) {
-                    sb.append("[ ] ");
-                } else {
-                    sb.append("[").append(simbolos).append("] ");
-                }
-            }
+            sb.append(gerarLinhaDeCasas(jogadores, inicio, fim));
+            sb.append(gerarLinhaDeNumeros(inicio, fim));
             sb.append("\n");
-            for (int i = inicio; i <= fim; i++) {
-                sb.append(String.format("%3d ", i));
-            }
-            sb.append("\n\n");
         }
 
         sb.append("============================================================\n");
+        return sb.toString();
+    }
+
+    private static String jogadoresNaCasa(List<Jogador> jogadores, int casa) {
+        StringBuilder sb = new StringBuilder();
+        for (Jogador p : jogadores) {
+            if (p.getPosicao() == casa) {
+                sb.append(Character.toUpperCase(p.getCor().charAt(0)));
+            }
+        }
+        return sb.toString();
+    }
+
+    private static String gerarLinhaDeCasas(List<Jogador> jogadores, int inicio, int fim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = inicio; i <= fim; i++) {
+            String dentro = jogadoresNaCasa(jogadores, i);
+            String conteudo = dentro;
+            if (conteudo.isEmpty()) {
+                conteudo = " ";
+            }
+            
+            sb.append("[" + conteudo + "] ");
+        }
+        
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    private static String gerarLinhaDeNumeros(int inicio, int fim) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = inicio; i <= fim; i++) {
+            sb.append(String.format("%3d ", i));
+        }
+        sb.append("\n");
         return sb.toString();
     }
 }
