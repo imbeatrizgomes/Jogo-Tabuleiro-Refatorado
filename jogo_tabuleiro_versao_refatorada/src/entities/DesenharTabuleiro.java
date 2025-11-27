@@ -49,7 +49,7 @@ public class DesenharTabuleiro {
                 conteudo = " ";
             }
             
-            sb.append("[" + conteudo + "] ");
+            sb.append("[").append(conteudo).append("] ");
         }
         
         sb.append("\n");
