@@ -15,15 +15,14 @@ public class Jogo {
         this.debug = debug;
     }
 
-    // run contém o loop principal do jogo
-    public void run() {
+    public void loopDoJogo() {
         Scanner sc = new Scanner(System.in);
         boolean jogoAtivo = true;
 
         while (jogoAtivo) {
             Jogador atual = tabuleiro.jogadorAtual();
 
-            System.out.println(DesenharTabuleiro.render(tabuleiro.jogadores()));
+            System.out.println(DesenharTabuleiro.desenhar(tabuleiro.jogadores()));
 
             if (atual.isPulaProximaRodada()) {
                 System.out.println(atual.getNome() + " vai pular esta rodada!");
@@ -39,12 +38,15 @@ public class Jogo {
 
             if (debug) {
                 System.out.print("Informe a casa para onde deseja mover (0 a " + Tabuleiro.CASA_FINAL + "): ");
-                int novaPosicao = -1;
-                try {
-                    novaPosicao = Integer.parseInt(sc.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    novaPosicao = atual.getPosicao();
+
+                while (!sc.hasNextInt()) {
+                    System.out.print("Digite um número válido: ");
+                    sc.nextLine();
                 }
+
+                int novaPosicao = sc.nextInt();
+                sc.nextLine();
+                
                 if (novaPosicao < 0) novaPosicao = 0;
                 if (novaPosicao > Tabuleiro.CASA_FINAL) novaPosicao = Tabuleiro.CASA_FINAL;
                 atual.setPosicao(novaPosicao);
@@ -56,11 +58,10 @@ public class Jogo {
                 if (atual.getPosicao() > Tabuleiro.CASA_FINAL) atual.setPosicao(Tabuleiro.CASA_FINAL);
             }
             
-            System.out.println(DesenharTabuleiro.render(tabuleiro.jogadores()));
+            System.out.println(DesenharTabuleiro.desenhar(tabuleiro.jogadores()));
 
             String evento = regras.aplicarRegrasEspeciais(atual);
             if ("ESCOLHER_JOGADOR".equals(evento)) {
-                // Lógica simples para escolher um jogador para mandar ao início
                 List<Jogador> lista = new ArrayList<>(tabuleiro.jogadores());
                 List<Jogador> oponentes = new ArrayList<>();
                 System.out.println("\n" + atual.getNome() + " pode escolher alguém para voltar ao início!");
@@ -74,7 +75,7 @@ public class Jogo {
                 Jogador escolhido = null;
                 while (escolhido == null) {
                     System.out.print("Digite o nome do jogador que deseja mandar ao início: ");
-                    String nomeEscolhido = sc.nextLine().trim();
+                    String nomeEscolhido = sc.nextLine();
                     for (Jogador j : oponentes) {
                         if (j.getNome().equalsIgnoreCase(nomeEscolhido)) {
                             escolhido = j;
@@ -98,5 +99,7 @@ public class Jogo {
 
             tabuleiro.proximoTurno();
         }
-    }
+        
+        sc.close();
+    }   
 }
