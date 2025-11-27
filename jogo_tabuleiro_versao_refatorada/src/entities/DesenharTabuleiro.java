@@ -4,7 +4,7 @@ import java.util.List;
 
 public class DesenharTabuleiro {
 
-    public static String render(List<Jogador> jogadores) {
+    public static String desenhar(List<Jogador> jogadores) {
         StringBuilder sb = new StringBuilder();
         int totalDeCasas = 40;
         int casasPorLinha = 10;
@@ -19,7 +19,7 @@ public class DesenharTabuleiro {
         StringBuilder casaInicial = new StringBuilder();
         for (Jogador p : jogadores) {
             if (p.getPosicao() == 0) {
-                casaInicial.append(Character.toUpperCase(p.getCor().charAt(0)));
+                casaInicial.append(p.getCor().toUpperCase().charAt(0));
             }
         }
         casaInicial.append("]");
@@ -33,7 +33,7 @@ public class DesenharTabuleiro {
                 StringBuilder simbolos = new StringBuilder();
                 for (Jogador p : jogadores) {
                     if (p.getPosicao() == i) {
-                        simbolos.append(Character.toUpperCase(p.getCor().charAt(0)));
+                        simbolos.append(p.getCor().toUpperCase().charAt(0));
                     }
                 }
                 if (simbolos.length() == 0) {
@@ -53,4 +53,3 @@ public class DesenharTabuleiro {
         return sb.toString();
     }
 }
-
