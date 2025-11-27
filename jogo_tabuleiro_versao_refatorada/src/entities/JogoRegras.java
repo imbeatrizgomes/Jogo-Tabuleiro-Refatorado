@@ -8,12 +8,8 @@ public class JogoRegras {
     private final Random random;
 
     public JogoRegras(List<Jogador> jogadores) {
-        this(jogadores, new Random());
-    }
-
-    public JogoRegras(List<Jogador> jogadores, Random random) {
         this.jogadores = jogadores;
-        this.random = random == null ? new Random() : random;
+        this.random = new Random();
     }
 
     public String aplicarRegrasEspeciais(Jogador jogador) {
